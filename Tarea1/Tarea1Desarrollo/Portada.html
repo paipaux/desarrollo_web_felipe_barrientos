@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <title>Perritos</title>
+    <link rel="stylesheet" href="Diseño.css">
+  </head>
+  <body>
+    <h1 class="ocultable bienvenida" id="bienvenidamsg">
+    ¡Bienvenido a U-Adopciones! 🐾❤️<br>
+    
+    </h1>
+    <!-- botones protada-->
+    <div class="ocultable" id="botonesportada">
+        
+
+        <button type="button" id="adoptbutton">
+            Agregar aviso de adopción
+        </button>
+
+        <button type="button" id="listbutton">
+            Ver listado de adopciones
+        </button>
+
+        <button type="button" id="statsbutton" onclick="mostrar(stat1),mostrar(stat2),mostrar(stat3)">
+            Estadísticas
+        </button>
+    </div>     
+
+
+        <!-- Forms Aviso-->
+    <form class="ocultable" id="formulario">
+                <div>
+                    <h1>¿Dónde?:</h1>
+                <label for="region">Región:</label>
+                <select id="region"></select>
+
+                <label for="comuna">Comuna:</label>
+                <select id="comuna"></select>   
+
+                
+                    <div id="sector-input" class="grupo-input">
+
+                    <label>Sector:</label>
+                    <input id="sector">
+
+                    </div>
+
+                </div>
+
+                <div>
+                    <h1>¿Contacto de esta publicación?:</h1>
+                    <div id="mail-input" class="grupo-input">
+                        <label for="email">Email:</label>
+                        <input id="email" name="email" type="email">
+                    </div>
+
+
+                    <div id="nombre-input" class="grupo-input">
+                        <label for="nombre">Nombre:</label>
+                        <input id="nombre" name="nombre">
+                    </div>
+
+                    <div id="num-input" class="grupo-input">
+                        <label for="num">Número:</label>
+                        <input id="num" name="num" type="text">
+                    </div>
+
+
+                    <div>
+                        <div> Contactar por:   </div>
+                        <label for = "red">Red Social:</label>
+                        <select id="red">
+                            <option value=""> Seleccione:</option>
+                            <option value="whatsapp"> whatsapp:</option>
+                            <option value="telegram"> telegram:</option>
+                            <option value="X"> X:</option>
+                            <option value="instagram"> instagram:</option>
+                            <option value="tiktok"> tiktok::</option>
+                            <option value="Ucampus"> Ucampus:</option>
+
+
+                        </select>
+                        <div id="inputred"></div>
+
+                    </div>
+
+                    <div>
+                        <h1> ¿Qué mascota ofrece en adopción?:   </h1>
+                        <label for = "tipo">Tipo:</label>
+                        <select id="tipo">
+                            <option value="gato"> gato</option>
+                            <option value="perro"> perro</option>
+                        </select>
+
+                    </div>
+
+                    <div id="cantidad-input" class="grupo-input">
+                        <label for="cantidad">Número:</label>
+                        <input id="cantidad" name="cantidad" type="number">
+                    </div>
+
+                    <div id="edad-input" class="grupo-input">
+                        <label for="edad">Edad:</label>
+                        <input id="edad" name="edad" type="number">
+                    </div>
+
+                    <div>
+                        
+                        <label for = "medida">Unidad medida edad :</label>
+                        <select id="medida">
+                            <option value="meses"> meses </option>
+                            <option value="años"> años</option>
+                        </select>
+
+                    </div>
+
+                    <div>
+                        <label for="fechaentrega">Fecha disponible para entrega:</label>
+                        <input type="datetime-local" id="fechaentrega" name="fechaentrega" value="">
+
+                    </div>
+                        <div>
+                        <label for="descripcion">Añade una descripción (Opcional)</label>
+                        <div>
+                        <textarea id="descripcion" name="descripcion" rows="10" cols="50">
+                    
+                        </textarea>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="foto">Añade una foto:</label>
+                        <input type="file" id="foto" name="foto" accept="image/*" multiple>
+
+
+                    </div>
+
+                    <div class="botones">
+                        <button type="button" id="enviar">
+                        Enviar
+                        </button>
+                    </div>
+
+
+                </div>
+
+                <button type="button" id="backbutton">
+                    Volver a la portada
+                </button>
+
+
+                
+
+
+    </form>
+
+    <div class="ocultable" id="confirmacion">
+    <div>
+        <p>¿Está seguro que desea agregar este aviso de adopción?</p>
+        <button id="buttonSi">Sí, estoy seguro</button>
+        <button id="buttonNo">No, no estoy seguro, quiero volver al formulario</button>
+        </div>
+    </div>
+
+    <div class="ocultable" id="mensajeFinal">
+        <p>Hemos recibido la información de adopción, muchas gracias y suerte!</p>
+        <button id="buttonPortada">Volver a la portada</button>
+        </div>
+
+    <script src="region_comuna.js"></script>
+
+       
+        
+
+        
+        
+        <!-- Tabla Grande-->
+    <div class = "ocultable" id="tablagrande">
+            <table>
+                <thead>
+                    <tr>
+                    <th>Fecha Publicación</th>
+                    <th>Fecha Entrega</th>
+                    <th>Comuna</th>
+                    <th>Sector</th>
+                    <th>Cantidad</th>
+                    <th>Tipo</th>
+                    <th>Edad</th>
+                    <th>Nombre</th>
+                    <th>Contacto</th>
+                    <th>Total Fotos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr onclick="ocultar(tablalistado),mostrar(detalle1),mostrar(fotomut1),mostrar(fotomut12),mostrar(fotomut13)">
+                    <td>02-09-2025</td>
+                    <td>05-09-2025</td>
+                    <td>Región de Tarapacá</td>
+                    <td>Camiña</td>
+                    <td>1</td>
+                    <td>Perro</td>
+                    <td>3 meses</td>
+                    <td>josejuan</td>
+                    <td>+56 9 1234 7678</td>
+                    <td>3</td>
+                    </tr>
+
+                    <tr onclick="ocultar(tablalistado),mostrar(detalle2),mostrar(fotomut2)">
+                    <td>01-09-2025</td>
+                    <td>03-09-2025</td>
+                    <td>Valparaíso</td>
+                    <td>Playa Ancha</td>
+                    <td>1</td>
+                    <td>Perro</td>
+                    <td>4 Añoos</td>
+                    <td>Arturo</td>
+                    <td>+56 9 9934 5678</td>
+                    <td>1</td>
+                    </tr>
+                    <tr onclick="ocultar(tablalistado),mostrar(detalle3),mostrar(fotomut3),mostrar(fotomut32)">
+                    <td>30-08-2025</td>
+                    <td>02-09-2025</td>
+                    <td>Región Metropolitana</td>
+                    <td>San Miguel</td>
+                    <td>2</td>
+                    <td>Perro</td>
+                    <td>5 mes</td>
+                    <td>Domingo Y Jueves</td>
+                    <td>+56 9 1292 5678</td>
+                    <td>2</td>
+                    </tr>
+                    <tr onclick="ocultar(tablalistado),mostrar(detalle4),mostrar(fotomut4)">
+                    <td>28-08-2025</td>
+                    <td>01-09-2025</td>
+                    <td>Región Metropolitana</td>
+                    <td>Santiago Centro</td>
+                    <td>2</td>
+                    <td>Perro</td>
+                    <td>9 meses</td>
+                    <td>Fify y Fufy</td>
+                    <td>+56 9 1131 5378</td>
+                    <td>1</td>
+                    </tr>
+                    <tr onclick="ocultar(tablalistado),mostrar(detalle5),mostrar(fotomut5),mostrar(fotomut52)">
+                    <td>27-08-2025</td>
+                    <td>29-08-2025</td>
+                    <td>Región Metropolitana</td>
+                    <td>Pudahuel</td>
+                    <td>1</td>
+                    <td>Gato</td>
+                    <td>5 meses</td>
+                    <td>Hornet</td>
+                    <td>+56 9 9024 5899</td>
+                    <td>2</td>
+                    </tr>
+                </tbody>
+                </table>
+                <button type="button" id="backbutton2">
+                 Volver a la portada
+            </button>
+    </div>
+    <!-- TablasDetalladas-->    
+    <div>
+        
+        <p><img src="../josejuanFOTOS/jj1.jpeg" class="ocultable fotobase" alt="perrito1" id="fotomut1" onclick="agrandar(this),ocultar(detalle1),mostrar(volverzoom1),ocultar(fotomut12),ocultar(fotomut13)" ></p>
+        <p><img src="../josejuanFOTOS/jj2.jpg"  class="ocultable fotobase" alt="perrito12" id="fotomut12" onclick="agrandar(this),ocultar(detalle1),mostrar(volverzoom1),ocultar(fotomut1),ocultar(fotomut13)" ></p>
+        <p><img src="../josejuanFOTOS/jj3.jpg"  class="ocultable fotobase" alt="perrito13" id="fotomut13" onclick="agrandar(this),ocultar(detalle1),mostrar(volverzoom1),ocultar(fotomut1),ocultar(fotomut12)" ></p>
+        
+        <button id="resetzoom1" class="ocultable" onclick="mostrar(fotomut1),mostrar(fotomut12),mostrar(fotomut13),volver(fotomut1),volver(fotomut12),volver(fotomut13),mostrar(detalle1),ocultar(this)">Cerrar</button>
+        <div class="ocultable" id="detalleAdopcion1">
+            <p>¿Dónde?:</p>
+            <p>Región: Región de Tarapacá</p>
+            <p>Comuna: Camiña</p>
+            <p>Sector: Centro</p>
+
+            <p>¿Contacto de esta publicación?:</p>
+            <p>Email: juanh23@correo.cl</p>
+            <p>Nombre: josejuan</p>
+            <p>Número: +56 9 1234 7678</p>
+            <p>Contactar por: WhatsApp</p>
+
+            <p>¿Qué mascota ofrece en adopción?:</p>
+            <p>Tipo: Perro</p>
+            <p>Cantidad: 1</p>
+            <p>Edad: 3 Meses</p>
+
+            <p>Fecha disponible para entrega: 02-09-2025 21:01</p>
+            
+
+            <button type="button" onclick="ocultar(detalle1), mostrar(tablalistado) ,ocultar(fotomut1),ocultar(fotomut12),ocultar(fotomut13)">
+                 Volver a la tabla
+            </button>
+        </div>
+
+        <p><img src="../fotosAnimales/perro4añ.jpeg" class="ocultable fotobase" alt="perrito2" id="fotomut2" onclick="agrandar(this),ocultar(detalle2),mostrar(volverzoom2)" ></p>
+        <button id="resetzoom2" class="ocultable" onclick="volver(fotomut2),mostrar(detalle2),ocultar(this)">Cerrar</button>
+        <div class="ocultable" id="detalleAdopcion2">
+             <p>¿Dónde?:</p>
+            <p>Región: Valparaiso</p>
+            <p>Comuna: Playa Ancha</p>
+            <p>Sector: Centro</p>
+
+            <p>¿Contacto de esta publicación?:</p>
+            <p>Email: igna27@correo.cl</p>
+            <p>Nombre: Arturo</p>
+            <p>Número: +56 9 9934 5678</p>
+            <p>Contactar por: WhatsApp</p>
+
+            <p>¿Qué mascota ofrece en adopción?:</p>
+            <p>Tipo: Perro</p>
+            <p>Cantidad: 1</p>
+            <p>Edad: 4 Años</p>
+
+            <p>Fecha disponible para entrega: 02-09-2025 21:01</p>
+
+            <button type="button" onclick="ocultar(detalle2), mostrar(tablalistado),ocultar(fotomut2)">
+                 Volver a la tabla
+            </button>
+
+        </div>
+        <p><img src="../dyjFOTOS/domingoyjueves1.jpg" class="ocultable fotobase" alt="perrito3" id="fotomut3" onclick="agrandar(this),ocultar(detalle3),mostrar(volverzoom3),ocultar(fotomut32)" ></p>
+        <p><img src="../dyjFOTOS/domingoyjueves2.jpg" class="ocultable fotobase" alt="perrito32" id="fotomut32" onclick="agrandar(this),ocultar(detalle3),mostrar(volverzoom3),ocultar(fotomut3)" ></p>
+
+        <button id="resetzoom3" class="ocultable" onclick="mostrar(fotomut3),mostrar(fotomut32),volver(fotomut3),volver(fotomut32),mostrar(detalle3),ocultar(this)">Cerrar</button>
+        <div class="ocultable" id="detalleAdopcion3">
+             <p>¿Dónde?:</p>
+            <p>Región: Región Metropolitana</p>
+            <p>Comuna: San Miguel</p>
+            <p>Sector: Metro San Miguel</p>
+
+            <p>¿Contacto de esta publicación?:</p>
+            <p>Email: sofifi12@correo.cl</p>
+            <p>Nombre: Domingo y Jueves</p>
+            <p>Número: +56 9 1292 5678</p>
+            <p>Contactar por: Instagram</p>
+            <p>Usuario: @sofiggdoglover</p>
+            <p>¿Qué mascota ofrece en adopción?:</p>
+            <p>Tipo: Perro</p>
+            <p>Cantidad: 2</p>
+            <p>Edad: 5 Meses</p>
+            <span> Descripción: Se dan en adopción 2 perritos adorables, juguetones y cariñosos.</span>
+            <p>Fecha disponible para entrega: 02-09-2025 21:01</p>
+
+            <button type="button" onclick="ocultar(detalle3), mostrar(tablalistado),ocultar(fotomut3),ocultar(fotomut32)">
+                 Volver a la tabla
+            </button>
+
+        </div>
+        <p><img src="../fotosAnimales/2perros5meses.png" class="ocultable fotobase" alt="perrito4" id="fotomut4" onclick="agrandar(this),ocultar(detalle4),mostrar(volverzoom4)" ></p>
+        <button id="resetzoom4" class="ocultable" onclick="volver(fotomut4),mostrar(detalle4),ocultar(this)">Cerrar</button>
+        <div class="ocultable" id="detalleAdopcion4">
+            <p>¿Dónde?:</p>
+            <p>Región: Región Metropolitana </p>
+            <p>Comuna: Santiago Centro</p>
+            <p>Sector: Toesca</p>
+
+            <p>¿Contacto de esta publicación?:</p>
+            <p>Email: judedias@correo.cl</p>
+            <p>Nombre: Fify y Fufy</p>
+            <p>Número: +56 9 1131 5378</p>
+            <p>Contactar por: WhatsApp</p>
+
+            <p>¿Qué mascota ofrece en adopción?:</p>
+            <p>Tipo: Perro</p>
+            <p>Cantidad: 2</p>
+            <p>Edad: 9 Meses</p>
+
+            <p>Fecha disponible para entrega: 02-09-2025 21:01</p>
+            
+
+            <button type="button" onclick="ocultar(detalle4), mostrar(tablalistado),ocultar(fotomut4)">
+                 Volver a la tabla
+            </button>
+
+        </div>
+        <p><img src="../jolyFOTOS/joly.jpeg" class="ocultable fotobase" alt="perrito5" id="fotomut5" onclick="agrandar(this),ocultar(detalle5),mostrar(volverzoom5),ocultar(fotomut52)" ></p>
+        <p><img src="../jolyFOTOS/joly2.jpeg" class="ocultable fotobase" alt="perrito52" id="fotomut52" onclick="agrandar(this),ocultar(detalle5),mostrar(volverzoom5),ocultar(fotomut5)" ></p>
+        <button id="resetzoom5" class="ocultable" onclick="mostrar(fotomut5),mostrar(fotomut52),volver(fotomut5),volver(fotomut52),mostrar(detalle5),ocultar(this)">Cerrar</button>
+        <div class="ocultable" id="detalleAdopcion5">
+             <p>¿Dónde?:</p>
+            <p>Región: Región Metropolitana</p>
+            <p>Comuna: Pudahuel</p>
+            <p>Sector: Sur</p>
+
+            <p>¿Contacto de esta publicación?:</p>
+            <p>Email: alex12@correo.cl</p>
+            <p>Nombre: Hornet</p>
+            <p>Número: +56 9 9024 5899</p>
+            <p>Contactar por: WhatsApp</p>
+
+            <p>¿Qué mascota ofrece en adopción?:</p>
+            <p>Tipo: Gato</p>
+            <p>Cantidad: 1</p>
+            <p>Edad: 5 Meses</p>
+
+            <p>Fecha disponible para entrega: 02-09-2025 21:01</p>
+
+            <button type="button" onclick="ocultar(detalle5), mostrar(tablalistado),ocultar(fotomut5),ocultar(fotomut52)">
+                 Volver a la tabla
+            </button>
+
+        </div>
+    
+
+    </div>
+
+
+            
+
+         <!-- Stats-->     
+    <div class = "ocultable" id="estadisticas">
+        <p><img src="../stats/linea.png" id="stat1" class="ocultable" width="600" height="400" alt="grafico1"></p>
+        <p><img src="../stats/barra.png" id="stat2" class="ocultable" width="600" height="400" alt="grafico2"></p>
+        <p><img src="../stats/torta.png" id="stat3" class="ocultable" width="600" height="400" alt="grafico3"></p>
+
+        <button type="button" id="backbutton3" onclick="ocultar(stat1),ocultar(stat2),ocultar(stat3)">
+            Volver a la portada
+        </button>
+    </div>
+    
+
+
+       
+<!-- TABLA PORTADA       -->
+       <div class="ocultable" id="tablaportada">
+        <table>
+            <thead>
+                <tr>
+                <th>Fecha publicación</th>
+                <th>Comuna</th>
+                <th>Sector</th>
+                <th>Cantidad Tipo Edad</th>
+                <th>Foto</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                <td>2025-08-20 12:00</td>
+                <td>Santiago</td>
+                <td>Parque Almagro</td>
+                <td>1 Gato 3 Meses</td>
+                <td><img src="../fotosAnimales/gato3meses.jpeg" alt="perrito1" width="320" height="240"></td>
+                </tr>
+                <tr>
+                <td>2025-04-18 15:00</td>
+                <td>Huechuraba</td>
+                <td>Ciudad Empresarial</td>
+                <td>2 Perros 5 Meses</td>
+                <td><img src="../fotosAnimales/perros2port.jpeg" alt="perrito1" width="320" height="240"></td>
+                </tr>
+                <tr>
+                <td>2018-09-12 13:40</td>
+                <td>Independencia</td>
+                <td>Hospitales</td>
+                <td>1 Perrito 7 Meses</td>
+                <td><img src="../fotosAnimales/perro7meses.jpeg" alt="perrito1" width="320" height="240"></td>
+                </tr>
+                <tr>
+                <td>2025-11-04 11:00</td>
+                <td>Ñuñoa</td>
+                <td>Estadio Nacional</td>
+                <td>3 Gatos 2 Meses</td>
+                <td><img src="../fotosAnimales/3gatitos.jpeg" alt="perrito1" width="320" height="240"></td>
+                </tr>
+                <tr>
+                <td>2024-04-24 19:40</td>
+                <td>La Florida</td>
+                <td>Pedreros</td>
+                <td>1 Perro 4 Años</td>
+                <td><img src="../fotosAnimales/4ñaosport.jpg" alt="perrito1" width="320" height="240"></td>
+                </tr>
+            </tbody>
+            </table>
+
+
+       </div>
+
+<script src="Funciones.js"></script>
+</body>
+</html>
