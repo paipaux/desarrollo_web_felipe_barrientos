@@ -1,0 +1,4 @@
+{
+    "get_ultimos_avisos": "SELECT aa.*, c.nombre as comuna_nombre, r.nombre as region_nombre FROM aviso_adopcion aa JOIN comuna c ON aa.comuna_id = c.id JOIN region r ON c.region_id = r.id ORDER BY aa.fecha_ingreso DESC LIMIT %s;"
+}
+

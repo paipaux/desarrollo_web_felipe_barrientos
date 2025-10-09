@@ -6,6 +6,7 @@ function ampliarFoto(img) {
     // Crear botón cerrar
     const btnCerrar = document.createElement('button');
     btnCerrar.textContent = 'Cerrar';
+    btnCerrar.className = 'btn-cerrar';
     btnCerrar.onclick = function() {
         // Volver a tamaño original y quitar botón
         img.classList.remove('foto-grande');

@@ -1,9 +1,25 @@
+document.getElementById('select-region').addEventListener('change', function() {
+    const regionId = this.value;
+    const comunaSelect = document.getElementById('select-comuna');
+    
+    if (regionId) {
+        fetch(`/api/comunas/${regionId}`)
+            .then(response => response.json())
+            .then(comunas => {
+                comunaSelect.innerHTML = '<option value="">Seleccione una comuna</option>';
+                comunas.forEach(comuna => {
+                    comunaSelect.innerHTML += `<option value="${comuna.id}">${comuna.nombre}</option>`;
+                });
+            });
+    } else {
+        comunaSelect.innerHTML = '<option value="">Seleccione una Comuna</option>';
+    }
+});
+
 const validateName = (nombre) => {
   if(!nombre) return false;
   let minlengthValid = nombre.trim().length >= 3;
   let maxlengthValid = nombre.trim().length <= 200;
-
-
   return minlengthValid && maxlengthValid;
 }
 
@@ -40,7 +56,6 @@ const validateFechaEntrega = (fechaStr) => {
 
   const input = document.getElementById("fechaEntrega");
 
-  // convertir a Date local (construcción explícita)
   const toDate = (s) => {
     const [d, t] = s.split("T");
     const [Y, M, D] = d.split("-").map(Number);
@@ -54,7 +69,6 @@ const validateFechaEntrega = (fechaStr) => {
   return fechaInput >= fechaMin;
 };
 
-//Select de fotos
 const validateFotos = () => {
   const fotosInput = document.getElementById("fotos");
   const archivos = fotosInput.files;
@@ -85,32 +99,9 @@ const validateComuna = (comuna) => {
     return !!comuna; 
 };
 
-
 const mostrarAgradecimiento = () => {
-  let validationBox = document.getElementById("val-box");
-  let validationMessageElem = document.getElementById("val-msg");
-  let validationListElem = document.getElementById("val-list");
-  
-  validationMessageElem.innerText = "Hemos recibido la información de adopción, muchas gracias y suerte!";
-  validationListElem.textContent = "";
-  
-  validationBox.style.backgroundColor = "#ddffdd";
-  validationBox.style.borderLeftColor = "#4CAF50";
-  
-  let portadaButton = document.createElement("button");
-  portadaButton.innerText = "Volver a la Portada";
-  portadaButton.addEventListener("click", () => {
-    window.location.href="Portada.html"
-    // Aquí deberías redirigir a la portada de tu sistema
-    // Por ejemplo: window.location.href = "index.html";
-    // En un caso real, descomenta la línea de arriba y pon la URL correcta
-  });
-  
-  validationListElem.appendChild(portadaButton);
-  validationBox.hidden = false;
+  document.getElementById('formulario').submit();
 };
-
-// Validador Final
 
 const validateForm = () => {
   let Form = document.forms["formulario"];
@@ -170,15 +161,9 @@ const validateForm = () => {
     setInvalidInput("Región");
   }
 
-
-
   if (!validateComuna(comuna)) {
     setInvalidInput("Comuna");
   }
-
-  
-
-  
 
   let validationBox = document.getElementById("val-box");
   let validationMessageElem = document.getElementById("val-msg");
@@ -187,32 +172,22 @@ const validateForm = () => {
     
   if (!isValid) {
     validationListElem.textContent = "";
-    // agregar elementos inválidos al elemento val-list.
     for (input of invalidInputs) {
       let listElement = document.createElement("li");
       listElement.innerText = input;
       validationListElem.append(listElement);
     }
-    // establecer val-msg
     validationMessageElem.innerText = "Los siguientes campos son inválidos:";
-
-    // aplicar estilos de error
     validationBox.style.backgroundColor = "#ffdddd";
     validationBox.style.borderLeftColor = "#f44336";
-
-    // hacer visible el mensaje de validación
     validationBox.hidden = false;
   } else {
-    // Ocultar el formulario
     formulario.style.display = "none";
-    
-    // Mostrar mensaje de confirmación
     validationMessageElem.innerText = "¿Está seguro que desea agregar este aviso de adopción?";
     validationListElem.textContent = "";
     validationBox.style.backgroundColor = "#e8f4fd";
     validationBox.style.borderLeftColor = "#2196F3";
 
-    // Crear botones de confirmación
     let siButton = document.createElement("button");
     siButton.innerText = "Sí, estoy seguro";
     siButton.style.marginRight = "10px";
@@ -221,7 +196,6 @@ const validateForm = () => {
     let noButton = document.createElement("button");
     noButton.innerText = "No, no estoy seguro, quiero volver al formulario";
     noButton.addEventListener("click", () => {
-      // Mostrar el formulario nuevamente
       formulario.style.display = "block";
       validationBox.hidden = true;
     });
@@ -230,9 +204,7 @@ const validateForm = () => {
     validationListElem.appendChild(noButton);
     validationBox.hidden = false;
   }
-        
 }
 
-
 let submitBtn = document.getElementById("enviar-button");
-submitBtn.addEventListener("click", validateForm);  
+submitBtn.addEventListener("click", validateForm);

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Listado de Adopciones</title>
+</head>
+<body>
+    <h1>Listado de Avisos de Adopción</h1>
+    
+    <div id="tablagrande">
+        <table border="1" style="width: 100%; margin-top: 20px;">
+            <thead>
+                <tr>
+                    <th>Fecha Publicación</th>
+                    <th>Fecha Entrega</th>
+                    <th>Comuna</th>
+                    <th>Sector</th>
+                    <th>Cantidad</th>
+                    <th>Tipo</th>
+                    <th>Edad</th>
+                    <th>Nombre</th>
+                    <th>Contacto</th>
+                    <th>Total Fotos</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for aviso in avisos %}
+                <tr style="cursor: pointer;" onclick="window.location.href='{{ url_for('ver_aviso', aviso_id=aviso.id) }}'">
+                    <td>{{ aviso.fecha_ingreso.strftime('%d-%m-%Y') if aviso.fecha_ingreso else 'N/A' }}</td>
+                    <td>{{ aviso.fecha_entrega.strftime('%d-%m-%Y') if aviso.fecha_entrega else 'N/A' }}</td>
+                    <td>{{ aviso.comuna_nombre }}</td>
+                    <td>{{ aviso.sector or 'No especificado' }}</td>
+                    <td>{{ aviso.cantidad }}</td>
+                    <td>{{ aviso.tipo }}</td>
+                    <td>{{ aviso.edad }} {% if aviso.unidad_medida == 'a' %}años{% else %}meses{% endif %}</td>
+                    <td>{{ aviso.nombre }}</td>
+                    <td>{{ aviso.celular or 'No especificado' }}</td>
+                    <td>
+                        {% if aviso.total_fotos > 0 %}
+                            <img src="{{ url_for('static', filename='uploads/' ~ aviso.foto_ruta) }}" 
+                                class="foto-pequena" 
+                                onclick="ampliarFoto(event, this)">
+                        {% else %}
+                            {{ aviso.total_fotos }}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+    <div style="margin-top: 20px; text-align: center;">
+        {% if page > 1 %}
+        <a href="{{ url_for('listado', page=page-1) }}">← Anterior</a>
+        {% endif %}
+        
+        <span style="margin: 0 20px;">Página {{ page }} de {{ total_pages }}</span>
+        
+        {% if page < total_pages %}
+        <a href="{{ url_for('listado', page=page+1) }}">Siguiente →</a>
+        {% endif %}
+    </div>
+
+    <button id="volver-button" type="button">Volver</button>
+
+    <script src="{{ url_for('static', filename='js/botones.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Detalle del Aviso</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="main-container">
+        <h1>Detalle del Aviso de Adopción</h1>
+        
+        <div id="detalle-aviso">
+            <!-- Fotos del aviso -->
+            <div class="fotos-container">
+                <h3>Fotos:</h3>
+                {% for foto in fotos %}
+                <p>
+                    <img src="{{ url_for('static', filename=foto.ruta_archivo.replace('static/', '').replace('\\', '/')) }}" 
+                         class="foto-pequena"
+                         onclick="ampliarFoto(this)"
+                         alt="Foto mascota">
+                </p>
+                {% endfor %}
+            </div>
+
+            <p><strong>¿Dónde?:</strong></p>
+            <p>Región: {{ aviso.region_nombre }}</p>
+            <p>Comuna: {{ aviso.comuna_nombre }}</p>
+            <p>Sector: {{ aviso.sector or 'No especificado' }}</p>
+
+            <p><strong>¿Contacto de esta publicación?:</strong></p>
+            <p>Email: {{ aviso.email }}</p>
+            <p>Nombre: {{ aviso.nombre }}</p>
+            <p>Número: {{ aviso.celular or 'No especificado' }}</p>
+
+            <p><strong>¿Qué mascota ofrece en adopción?:</strong></p>
+            <p>Tipo: {{ aviso.tipo }}</p>
+            <p>Cantidad: {{ aviso.cantidad }}</p>
+            <p>Edad: {{ aviso.edad }} {% if aviso.unidad_medida == 'a' %}años{% else %}meses{% endif %}</p>
+            <p>Descripción: {{ aviso.descripcion or 'No hay descripción' }}</p>
+                
+            <p><strong>Fecha disponible para entrega:</strong> {{ aviso.fecha_entrega.strftime('%d-%m-%Y %H:%M') if aviso.fecha_entrega else 'No especificada' }}</p>
+        </div>
+
+        <button id="volver-button" type="button">Volver al Listado</button>
+    </div>
+
+    <script>
+        function ampliarFoto(img) {
+            // Cambiar a tamaño grande
+            img.classList.remove('foto-pequena');
+            img.classList.add('foto-grande');
+            
+            // Crear botón cerrar
+            const btnCerrar = document.createElement('button');
+            btnCerrar.textContent = 'Cerrar';
+            btnCerrar.className = 'btn-cerrar';
+            btnCerrar.onclick = function() {
+                // Volver a tamaño original y quitar botón
+                img.classList.remove('foto-grande');
+                img.classList.add('foto-pequena');
+                btnCerrar.remove();
+            };
+            
+            // Agregar botón después de la imagen
+            img.parentNode.insertBefore(btnCerrar, img.nextSibling);
+        }
+    </script>
+
+    <script src="{{ url_for('static', filename='js/botones.js') }}"></script>
+</body>
+</html>

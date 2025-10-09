@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Form Validation</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="main-container">
+
+        <div id="val-box" hidden>
+            <h2 id="val-msg"></h2>
+            <ul id="val-list"></ul>
+        </div>
+
+        <form name="formulario" id="formulario" action="{{ url_for('crear_aviso') }}" method="POST" enctype="multipart/form-data">
+
+            <h3>¿Dónde?: </h3>
+            <label for="select-region">Selecciona Region</label>
+            <select name="select-region" id="select-region">
+                <option value="">Seleccione una región</option>
+                {% for region in regiones %}
+                    <option value="{{ region.id }}">{{ region.nombre }}</option>
+                {% endfor %}
+            </select><br>
+
+            <label for="select-comuna">Selecciona Comuna</label>
+            <select name="select-comuna" id="select-comuna">
+                <option value="">Seleccione una Comuna</option>
+            </select><br>
+
+            <label for="sector">Sector (opcional)</label>
+            <input type="text" name="sector" id="sector"><br>
+
+            <h3>¿Contacto de esta publicación?: </h3>
+            <label for="nombre">Nombre</label>
+            <input type="text" name="nombre" id="nombre" minlength="3" maxlength="200"><br>
+
+            <label for="email">Email</label>
+            <input type="text" name="email" id="email" minlength="15" maxlength="100"><br>
+
+            <label for="numero">Contacto Telefónico</label>
+            <input type="text" name="numero" id="numero" length="13"><br>
+
+            <label for="select-redsocial">Contactar por</label>
+            <select name="select-redsocial" id="select-redsocial">
+                <option value="">Seleccione una red social</option>
+            </select><br>
+
+            <div id="extra-inputs"></div>
+
+            <h3>¿Qué mascota ofrece en adopción?: </h3>
+            <label for="select-tipo">Tipo de mascota</label>
+            <select name="select-tipo" id="select-tipo">
+                <option value="">Seleccione el tipo:</option>
+                <option value="perro">Perro</option>
+                <option value="gato">Gato</option>
+            </select><br>
+
+            <label for="cantidad">Cantidad</label>
+            <input type="number" name="cantidad" id="cantidad"><br>
+
+            <label for="edad">Edad</label>
+            <input type="number" name="edad" id="edad"><br>
+
+            <label for="select-medida">Unidad de medida</label>
+            <select name="select-medida" id="select-medida">
+                <option value="">Seleccionar unidad de medida:</option>
+                <option value="m">Meses</option>
+                <option value="a">Años</option>
+            </select><br>
+
+            <label for="fechaEntrega">Fecha disponible para entrega</label>
+            <input type="datetime-local" id="fechaEntrega" name="fechaEntrega"><br>
+
+            <label for="desc">Descripción</label><br>
+            <textarea name="desc" id="desc" cols="50" rows="10"></textarea><br>
+
+            <label for="fotos">Subir fotos</label>
+            <input type="file" id="fotos" name="fotos" accept="image/*" multiple>
+
+            <button id="enviar-button" type="button">Enviar</button>
+            <button id="volver-button" type="button">Volver</button>
+
+        </form>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/Validador.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/Seleccionables.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/fechadatatime.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/botones.js') }}"></script>
+
+</body>
+</html>
