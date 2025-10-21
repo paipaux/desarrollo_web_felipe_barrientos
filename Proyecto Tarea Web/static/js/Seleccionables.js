@@ -47,30 +47,52 @@ const poblarMEDIDA = () => {
 };
 
 
+
 function changeArguments() {
-  const redSelect = document.getElementById("select-redsocial");
-  const container = document.getElementById("extra-inputs"); // contenedor nuevo
+    const redSelect = document.getElementById("select-redsocial");
+    const container = document.getElementById("extra-inputs");
+    
+    const selectedNetwork = redSelect.value;
 
-  if (redSelect.value !== "") {
+    if (selectedNetwork === "") {
+        return;
+    }
 
-      if (counter >= MAX_INPUTS) {
-          alert("Ya alcanzaste el máximo de 5 redes.");
-          redSelect.value = "";        // volver a la opción vacía
-          return;
-      }
 
-      // Crear un nuevo textarea
-      const textarea = document.createElement("textarea");
-      textarea.rows = 1;
-      textarea.cols = 30;
-      textarea.placeholder = `Ingresa tu ID o URL`;
+    if (counter >= MAX_INPUTS) {
+        alert("Ya alcanzaste el máximo de 5 redes.");
+        redSelect.value = ""; 
+        return;
+    }
 
-      container.appendChild(textarea);
-      container.appendChild(document.createElement("br"));
+    
+    
+    const inputGroup = document.createElement("div");
+    inputGroup.style.margin = "5px 0";
 
-      counter++;
-      redSelect.value = "";  // volver a la opción vacía después de agregar
-  }
+    
+    const label = document.createElement("label");
+    label.textContent = `${selectedNetwork}: `;
+    inputGroup.appendChild(label);
+
+    const hiddenInput = document.createElement("input");
+    hiddenInput.type = "hidden";
+    hiddenInput.name = "contact_network"; 
+    hiddenInput.value = selectedNetwork.toLowerCase(); 
+    inputGroup.appendChild(hiddenInput);
+
+    
+    const textInput = document.createElement("input");
+    textInput.type = "text";
+    textInput.name = "contact_identifier"; 
+    textInput.placeholder = "Ingresa tu ID o URL";
+    inputGroup.appendChild(textInput);
+
+    container.appendChild(inputGroup);
+    
+
+    counter++;
+    redSelect.value = ""; 
 }
 
 

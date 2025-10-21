@@ -49,6 +49,7 @@
     <script>
         function ampliarFoto(img) {
             // Cambiar a tamaño grande
+            if (img.classList.contains('foto-grande')) return;
             img.classList.remove('foto-pequena');
             img.classList.add('foto-grande');
             

@@ -63,16 +63,29 @@ class AvisoAdopcion(Base):
     unidad_medida = Column(Enum('a', 'm'), nullable=False)
     fecha_entrega = Column(DateTime, nullable=False)
     descripcion = Column(Text(500))
+    
     comuna = relationship("Comuna", back_populates="avisos")
     fotos = relationship("Foto", back_populates="aviso")
+    contactos = relationship("ContactarPor", back_populates="aviso")
 
 class Foto(Base):
     __tablename__ = 'foto'
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     ruta_archivo = Column(String(300), nullable=False)
     nombre_archivo = Column(String(300), nullable=False)
-    actividad_id = Column(Integer, ForeignKey('aviso_adopcion.id'), nullable=False)
+    aviso_id = Column(Integer, ForeignKey('aviso_adopcion.id'), nullable=False)
+    
     aviso = relationship("AvisoAdopcion", back_populates="fotos")
+
+class ContactarPor(Base):
+    __tablename__ = 'contactar_por'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    nombre = Column(Enum('whatsapp', 'telegram', 'X', 'instagram', 'tiktok', 'otra'), nullable=False)
+    identificador = Column(String(150), nullable=False)
+    aviso_id = Column(Integer, ForeignKey('aviso_adopcion.id'), nullable=False)
+    
+    aviso = relationship("AvisoAdopcion", back_populates="contactos")
+    
 
 def get_ultimos_avisos(limit=5):
     conn = get_conn()
@@ -118,14 +131,34 @@ def create_foto_sqlalchemy(aviso_id, ruta_archivo, nombre_archivo):
         nueva_foto = Foto(
             ruta_archivo=ruta_archivo,
             nombre_archivo=nombre_archivo,
-            actividad_id=aviso_id
+            aviso_id=aviso_id
         )
         session.add(nueva_foto)
         session.commit()
-        print(f"💾 Foto insertada en BD: {nombre_archivo}")
+        print(f"Foto insertada en BD: {nombre_archivo}")
         session.close()
     except Exception as e:
-        print(f"❌ Error insertando foto: {e}")
+        print(f"Error insertando foto: {e}")
+        session.rollback()
+        session.close()
+
+def create_contacto_sqlalchemy(aviso_id, nombre_red, identificador_red):
+    try:
+        session = SessionLocal()
+        nuevo_contacto = ContactarPor(
+            aviso_id=aviso_id,
+            nombre=nombre_red,
+            identificador=identificador_red
+        )
+        session.add(nuevo_contacto)
+        session.commit()
+        print(f"Contacto insertado en BD: {nombre_red}")
+        session.close()
+    except Exception as e:
+        print(f"Error insertando contacto: {e}")
+        session.rollback() 
+        session.close()
+
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'png', 'jpg', 'jpeg', 'gif'}

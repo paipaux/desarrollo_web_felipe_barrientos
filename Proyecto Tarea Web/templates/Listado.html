@@ -37,13 +37,7 @@
                     <td>{{ aviso.nombre }}</td>
                     <td>{{ aviso.celular or 'No especificado' }}</td>
                     <td>
-                        {% if aviso.total_fotos > 0 %}
-                            <img src="{{ url_for('static', filename='uploads/' ~ aviso.foto_ruta) }}" 
-                                class="foto-pequena" 
-                                onclick="ampliarFoto(event, this)">
-                        {% else %}
-                            {{ aviso.total_fotos }}
-                        {% endif %}
+                        {{ aviso.total_fotos }}
                     </td>
                 </tr>
                 {% endfor %}
