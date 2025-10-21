@@ -4,7 +4,6 @@ from datetime import datetime
 def validar_aviso(data):
     errores = []
     
-    # Validar nombre (igual que validateName)
     nombre = data.get('nombre', '').strip()
     if not nombre or len(nombre) < 3 or len(nombre) > 200:
         errores.append("Nombre")

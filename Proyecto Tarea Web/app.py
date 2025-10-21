@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify, flash
-from database.db import get_ultimos_avisos, get_all_regiones, get_comunas_by_region, create_aviso_sqlalchemy, create_foto_sqlalchemy, allowed_file, get_avisos_paginados, get_total_avisos, get_aviso_by_id, get_fotos_by_aviso_id, UPLOAD_FOLDER, create_contacto_sqlalchemy
+from database.db import get_ultimos_avisos, get_all_regiones, get_comunas_by_region, create_aviso_sqlalchemy, create_foto_sqlalchemy, allowed_file, get_avisos_paginados, get_total_avisos, get_aviso_by_id, get_fotos_by_aviso_id, UPLOAD_FOLDER, create_contacto_sqlalchemy, get_stats_avisos_por_dia, get_stats_avisos_por_tipo, get_stats_avisos_por_mes
 from validadores.validator import validar_aviso
 from datetime import datetime
 from werkzeug.utils import secure_filename
@@ -83,7 +83,6 @@ def crear_aviso():
         aviso_id = create_aviso_sqlalchemy(aviso_data)
         print(f"AVISO CREADO CON ID: {aviso_id}")
 
-        # Guardar Fotos
         fotos = request.files.getlist('fotos')
         print(f"PROCESANDO {len(fotos)} FOTOS...")
         
@@ -103,7 +102,6 @@ def crear_aviso():
                 fotos_guardadas += 1
         print(f"FOTOS GUARDADAS: {fotos_guardadas}")
 
-        # Guardar Contactos
         print("PROCESANDO CONTACTOS...")
         redes = request.form.getlist('contact_network')
         identificadores = request.form.getlist('contact_identifier')
@@ -137,6 +135,58 @@ def ver_aviso(aviso_id):
     
     fotos = get_fotos_by_aviso_id(aviso_id)
     return render_template('aviso_detalle.html', aviso=aviso, fotos=fotos)
+
+@app.route('/api/stats/avisos-por-dia')
+def api_stats_avisos_por_dia():
+    data = get_stats_avisos_por_dia()
+    categorias = [item['dia'] for item in data]
+    valores = [item['total'] for item in data]
+    
+    response_data = {
+        'categorias': categorias,
+        'valores': valores
+    }
+    return jsonify(response_data)
+
+@app.route('/api/stats/avisos-por-tipo')
+def api_stats_avisos_por_tipo():
+    data = get_stats_avisos_por_tipo()
+    response_data = []
+    for item in data:
+        response_data.append({
+            'name': item['tipo'].capitalize(),
+            'y': item['total']
+        })
+    return jsonify(response_data)
+
+@app.route('/api/stats/avisos-por-mes')
+def api_stats_avisos_por_mes():
+    data = get_stats_avisos_por_mes()
+    
+    meses = sorted(list(set([item['mes'] for item in data])))
+    datos_gatos = {mes: 0 for mes in meses}
+    datos_perros = {mes: 0 for mes in meses}
+    
+    for item in data:
+        if item['tipo'] == 'gato':
+            datos_gatos[item['mes']] = item['total']
+        elif item['tipo'] == 'perro':
+            datos_perros[item['mes']] = item['total']
+            
+    response_data = {
+        'categorias': meses,
+        'series': [
+            {
+                'name': 'Gato',
+                'data': [datos_gatos[mes] for mes in meses]
+            },
+            {
+                'name': 'Perro',
+                'data': [datos_perros[mes] for mes in meses]
+            }
+        ]
+    }
+    return jsonify(response_data)
 
 if __name__ == '__main__':
     app.run(debug=True)

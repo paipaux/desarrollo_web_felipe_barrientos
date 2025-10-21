@@ -4,14 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
     <title>Estadísticas</title>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
 </head>
 <body>
     <h1>Estadísticas</h1>
-    <p><img src="{{ url_for('static', filename='images/Fotos/statfotos/linea.png') }}" alt="stat1" width="320" height="240"></p>
-    <p><img src="{{ url_for('static', filename='images/Fotos/statfotos/torta.png') }}" alt="stat2" width="320" height="240"></p>
-    <p><img src="{{ url_for('static', filename='images/Fotos/statfotos/barra.png') }}" alt="stat2" width="320" height="240"></p>
+
+    <div id="container-lineas" style="width:100%; height:400px; margin-bottom: 20px;"></div>
+    <div id="container-torta" style="width:100%; height:400px; margin-bottom: 20px;"></div>
+    <div id="container-barras" style="width:100%; height:400px; margin-bottom: 20px;"></div>
+
     <button id="volver-button" type="button">Volver</button>
 
     <script src="{{ url_for('static', filename='js/botones.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/stats.js') }}"></script>
 </body>
 </html>

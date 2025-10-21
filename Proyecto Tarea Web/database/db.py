@@ -211,3 +211,48 @@ def get_fotos_by_aviso_id(aviso_id):
     fotos = cursor.fetchall()
     conn.close()
     return fotos
+
+def get_stats_avisos_por_dia():
+    conn = get_conn()
+    cursor = conn.cursor(pymysql.cursors.DictCursor)
+    query = """
+        SELECT DATE_FORMAT(fecha_ingreso, '%Y-%m-%d') as dia, 
+               COUNT(*) as total
+        FROM aviso_adopcion
+        GROUP BY dia
+        ORDER BY dia ASC;
+    """
+    cursor.execute(query)
+    data = cursor.fetchall()
+    conn.close()
+    return data
+
+def get_stats_avisos_por_tipo():
+    conn = get_conn()
+    cursor = conn.cursor(pymysql.cursors.DictCursor)
+    query = """
+        SELECT tipo, COUNT(*) as total
+        FROM aviso_adopcion
+        GROUP BY tipo;
+    """
+    cursor.execute(query)
+    data = cursor.fetchall()
+    conn.close()
+    return data
+
+def get_stats_avisos_por_mes():
+    conn = get_conn()
+    cursor = conn.cursor(pymysql.cursors.DictCursor)
+    query = """
+        SELECT 
+            DATE_FORMAT(fecha_ingreso, '%Y-%m') as mes,
+            tipo,
+            COUNT(*) as total
+        FROM aviso_adopcion
+        GROUP BY mes, tipo
+        ORDER BY mes ASC, tipo;
+    """
+    cursor.execute(query)
+    data = cursor.fetchall()
+    conn.close()
+    return data
