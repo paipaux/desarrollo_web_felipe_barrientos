@@ -32,3 +32,20 @@ if (volverlistbutton) {
         window.location.href = "/listado"; 
     });
 }
+
+function ampliarFoto(img) {
+    if (img.classList.contains('foto-grande')) return;
+    img.classList.remove('foto-pequena');
+    img.classList.add('foto-grande');
+    
+    const btnCerrar = document.createElement('button');
+    btnCerrar.textContent = 'Cerrar';
+    btnCerrar.className = 'btn-cerrar';
+    btnCerrar.onclick = function() {
+        img.classList.remove('foto-grande');
+        img.classList.add('foto-pequena');
+        btnCerrar.remove();
+    };
+    
+    img.parentNode.insertBefore(btnCerrar, img.nextSibling);
+}

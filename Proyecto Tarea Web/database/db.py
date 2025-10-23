@@ -67,6 +67,7 @@ class AvisoAdopcion(Base):
     comuna = relationship("Comuna", back_populates="avisos")
     fotos = relationship("Foto", back_populates="aviso")
     contactos = relationship("ContactarPor", back_populates="aviso")
+    comentarios = relationship("Comentario", back_populates="aviso")
 
 class Foto(Base):
     __tablename__ = 'foto'
@@ -86,6 +87,15 @@ class ContactarPor(Base):
     
     aviso = relationship("AvisoAdopcion", back_populates="contactos")
     
+class Comentario(Base):
+    __tablename__ = 'comentario'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    nombre = Column(String(80), nullable=False)
+    texto = Column(String(300), nullable=False)
+    fecha = Column(DateTime, nullable=False, default=datetime.utcnow)
+    aviso_id = Column(Integer, ForeignKey('aviso_adopcion.id'), nullable=False)
+    
+    aviso = relationship("AvisoAdopcion", back_populates="comentarios")
 
 def get_ultimos_avisos(limit=5):
     conn = get_conn()
@@ -256,3 +266,41 @@ def get_stats_avisos_por_mes():
     data = cursor.fetchall()
     conn.close()
     return data
+
+def get_comentarios_by_aviso_id(aviso_id):
+    conn = get_conn()
+    cursor = conn.cursor(pymysql.cursors.DictCursor)
+    query = "SELECT * FROM comentario WHERE aviso_id = %s ORDER BY fecha DESC"
+    cursor.execute(query, (aviso_id,))
+    comentarios = cursor.fetchall()
+    conn.close()
+    return comentarios
+
+def create_comentario_sqlalchemy(aviso_id, nombre, texto):
+    try:
+        session = SessionLocal()
+        nuevo_comentario = Comentario(
+            aviso_id=aviso_id,
+            nombre=nombre,
+            texto=texto
+        )
+        session.add(nuevo_comentario)
+        session.commit()
+        
+        session.refresh(nuevo_comentario)
+        comentario_creado = {
+            'id': nuevo_comentario.id,
+            'nombre': nuevo_comentario.nombre,
+            'texto': nuevo_comentario.texto,
+            'fecha': nuevo_comentario.fecha.isoformat(),
+            'aviso_id': nuevo_comentario.aviso_id
+        }
+        
+        print(f"Comentario insertado en BD por: {nombre}")
+        session.close()
+        return comentario_creado
+    except Exception as e:
+        print(f"Error insertando comentario: {e}")
+        session.rollback() 
+        session.close()
+        return None

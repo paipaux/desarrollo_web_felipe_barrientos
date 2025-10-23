@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
     <title>Portal de Adopción de Mascotas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
     <h1>Portal de Adopción de Mascotas</h1>
@@ -11,9 +12,8 @@
     <button id="list-button" type="button">Ver listado de adopciones</button>
     <button id="stats-button" type="button">Estadísticas</button>
 
-    <!-- Tabla de avisos -->
     <h2>Avisos de Adopción</h2>
-    <table border="1" style="width: 100%; margin-top: 20px;">
+    <table class="tabla-avisos" style="width: 100%; margin-top: 20px;">
         <thead>
             <tr>
                 <th>Fecha publicación</th>
@@ -33,7 +33,7 @@
                     <td>{{ aviso.cantidad }} {{ aviso.tipo }} {{ aviso.edad }} {% if aviso.unidad_medida == 'a' %}Años{% else %}Meses{% endif %}</td>
                     <td>
                         {% if aviso.foto_ruta %}
-                        <img src="{{ url_for('static', filename=aviso.foto_ruta.replace('static/', '').replace('\\', '/')) }}" width="320" height="240">
+                        <img src="{{ url_for('static', filename=aviso.foto_ruta.replace('static/', '').replace('\\', '/')) }}" width="320" height="240" alt="Foto de mascota">
                         {% else %}
                         Sin foto
                         {% endif %}

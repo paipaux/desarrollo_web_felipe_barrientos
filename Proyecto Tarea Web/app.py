@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify, flash
-from database.db import get_ultimos_avisos, get_all_regiones, get_comunas_by_region, create_aviso_sqlalchemy, create_foto_sqlalchemy, allowed_file, get_avisos_paginados, get_total_avisos, get_aviso_by_id, get_fotos_by_aviso_id, UPLOAD_FOLDER, create_contacto_sqlalchemy, get_stats_avisos_por_dia, get_stats_avisos_por_tipo, get_stats_avisos_por_mes
-from validadores.validator import validar_aviso
+from database.db import get_ultimos_avisos, get_all_regiones, get_comunas_by_region, create_aviso_sqlalchemy, create_foto_sqlalchemy, allowed_file, get_avisos_paginados, get_total_avisos, get_aviso_by_id, get_fotos_by_aviso_id, UPLOAD_FOLDER, create_contacto_sqlalchemy, get_stats_avisos_por_dia, get_stats_avisos_por_tipo, get_stats_avisos_por_mes, get_comentarios_by_aviso_id, create_comentario_sqlalchemy
+from validadores.validator import validar_aviso, validar_comentario
 from datetime import datetime
 from werkzeug.utils import secure_filename
 import os
@@ -187,6 +187,43 @@ def api_stats_avisos_por_mes():
         ]
     }
     return jsonify(response_data)
+
+@app.route('/api/aviso/<int:aviso_id>/comentarios', methods=['GET'])
+def api_get_comentarios(aviso_id):
+    comentarios = get_comentarios_by_aviso_id(aviso_id)
+    
+    comentarios_serializables = []
+    for c in comentarios:
+        comentarios_serializables.append({
+            'id': c['id'],
+            'nombre': c['nombre'],
+            'texto': c['texto'],
+            'fecha': c['fecha'].isoformat(),
+            'aviso_id': c['aviso_id']
+        })
+    return jsonify(comentarios_serializables)
+
+@app.route('/api/aviso/<int:aviso_id>/comentario', methods=['POST'])
+def api_add_comentario(aviso_id):
+    try:
+        data = request.json
+        nombre = data.get('nombre')
+        texto = data.get('texto')
+        
+        errores = validar_comentario(data)
+        if errores:
+            return jsonify({'success': False, 'errores': errores}), 400
+            
+        nuevo_comentario = create_comentario_sqlalchemy(aviso_id, nombre, texto)
+        
+        if nuevo_comentario:
+            return jsonify({'success': True, 'comentario': nuevo_comentario}), 201
+        else:
+            return jsonify({'success': False, 'errores': ['Error interno al guardar el comentario.']}), 500
+            
+    except Exception as e:
+        print(f"Error en api_add_comentario: {e}")
+        return jsonify({'success': False, 'errores': [str(e)]}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -18,3 +18,13 @@
     padding: 5px 10px;
     cursor: pointer;
 }
+
+.tabla-avisos,
+.tabla-avisos th,
+.tabla-avisos td {
+    border: 1px solid black;
+}
+
+.tabla-avisos {
+    border-collapse: collapse;
+}

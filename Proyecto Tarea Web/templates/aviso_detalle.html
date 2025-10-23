@@ -11,7 +11,6 @@
         <h1>Detalle del Aviso de Adopción</h1>
         
         <div id="detalle-aviso">
-            <!-- Fotos del aviso -->
             <div class="fotos-container">
                 <h3>Fotos:</h3>
                 {% for foto in fotos %}
@@ -43,32 +42,41 @@
             <p><strong>Fecha disponible para entrega:</strong> {{ aviso.fecha_entrega.strftime('%d-%m-%Y %H:%M') if aviso.fecha_entrega else 'No especificada' }}</p>
         </div>
 
+        <hr>
+
+        <div id="seccion-comentarios" data-aviso-id="{{ aviso.id }}">
+            <h2>Comentarios</h2>
+            
+            <form id="form-comentario">
+                <h3>Agregar un nuevo comentario</h3>
+                
+                <div id="comentario-errores" style="color: red; margin-bottom: 10px;"></div>
+
+                <div>
+                    <label for="comentario-nombre">Nombre:</label>
+                    <input type="text" id="comentario-nombre" name="nombre" minlength="3" maxlength="80">
+                </div>
+                <br>
+                <div>
+                    <label for="comentario-texto">Comentario:</label><br>
+                    <textarea id="comentario-texto" name="texto" rows="4" cols="50" minlength="5"></textarea>
+                </div>
+                <br>
+                <button type="submit">Agregar comentario</button>
+            </form>
+
+            <hr>
+            
+            <h3>Comentarios existentes</h3>
+            <div id="lista-comentarios">
+                <p>Cargando comentarios...</p>
+            </div>
+        </div>
+
         <button id="volver-button" type="button">Volver al Listado</button>
     </div>
 
-    <script>
-        function ampliarFoto(img) {
-            // Cambiar a tamaño grande
-            if (img.classList.contains('foto-grande')) return;
-            img.classList.remove('foto-pequena');
-            img.classList.add('foto-grande');
-            
-            // Crear botón cerrar
-            const btnCerrar = document.createElement('button');
-            btnCerrar.textContent = 'Cerrar';
-            btnCerrar.className = 'btn-cerrar';
-            btnCerrar.onclick = function() {
-                // Volver a tamaño original y quitar botón
-                img.classList.remove('foto-grande');
-                img.classList.add('foto-pequena');
-                btnCerrar.remove();
-            };
-            
-            // Agregar botón después de la imagen
-            img.parentNode.insertBefore(btnCerrar, img.nextSibling);
-        }
-    </script>
-
     <script src="{{ url_for('static', filename='js/botones.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/comentarios.js') }}"></script>
 </body>
 </html>

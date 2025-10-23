@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
     <title>Listado de Adopciones</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
     <h1>Listado de Avisos de Adopción</h1>
     
     <div id="tablagrande">
-        <table border="1" style="width: 100%; margin-top: 20px;">
+        <table class="tabla-avisos" style="width: 100%; margin-top: 20px;">
             <thead>
                 <tr>
                     <th>Fecha Publicación</th>
