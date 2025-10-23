@@ -1,3 +1,31 @@
 # desarrollo_web_felipe_barrientos
 
-Para la tarea 2 tuve un montón de problemas, pido disculpas de antemano, no funciona bien la base de datos con las fotos y las redes, logre una versión bastante solida pero al tratar de cambiar validaciones, eché todo a perder y me quede con este proyecto mas bien malo,al no tener respaldo me hes imposible por tiempo recuperar lo que tenia.
+PROYECTO TAREA WEB/
+│
+├── database/ # Scripts y módulos relacionados con la base de datos
+│ ├── createuser.sql
+│ ├── db.py #Python para conectar y ejecutar consultas SQL
+│ ├── querys.json 
+│ ├── region-comuna.sql 
+│ ├── tabla-comentario.sql 
+│ └── tarea2.sql 
+│
+├── static/ # Archivos estáticos
+│ └── js/ # Scripts JavaScript
+│
+├── templates/ # Plantillas HTML 
+│ ├── aviso_detalle.html 
+│ ├── Estadísticas.html 
+│ ├── Formulario.html 
+│ ├── Listado.html
+│ └── Portada.html # Página principal 
+│
+├── validadores/ # Módulos de validación
+│ ├── pycache/ 
+│ └── validator.py 
+│
+├── venv/ # Entorno virtual
+│
+├── app.py # Archivo principal
+│
+└── requirements.txt # Dependencias
