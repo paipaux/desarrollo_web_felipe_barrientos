@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Listado de Adopciones</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <h1>Listado de Avisos de Adopción y Evaluación (Tarea 4)</h1>
+    
+    <div id="tablagrande">
+        <table class="tabla-avisos" style="width: 100%; margin-top: 20px;">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Fecha Publicación</th>
+                    <th>Sector</th>
+                    <th>Cantidad Tipo Edad</th>
+                    <th>Comuna</th>
+                    <th>Nota Promedio</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="aviso : ${avisos}">
+                    <td th:text="${aviso.id}">1</td>
+                    <td th:text="${#temporals.format(aviso.fechaPublicacion, 'yyyy-MM-dd')}">2025-10-21</td>
+                    <td th:text="${aviso.sector}">Centro</td>
+                    <td th:text="${aviso.cantidadTipoEdad}">1 gato 2 meses</td> 
+                    <td th:text="${aviso.comuna}">Santiago</td>
+                    <td th:id="'promedio-' + ${aviso.id}" th:text="${aviso.notaPromedio}">-</td>
+                    <td>
+                        <button 
+                            class="btn-evaluar" 
+                            th:data-aviso-id="${aviso.id}" 
+                            onclick="evaluar(this)">
+                            evaluar
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <a th:href="@{/}" class="volver-link">Volver a la Portada</a>
+
+    <script th:src="@{/js/evaluacion.js}"></script>
+    <script th:src="@{/js/botones.js}"></script> 
+</body>
+</html>

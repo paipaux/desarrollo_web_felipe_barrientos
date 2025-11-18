@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Detalle del Aviso</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <div class="main-container">
+        <h1>Detalle del Aviso de Adopción</h1>
+        
+        <div id="detalle-aviso">
+            <div class="fotos-container">
+                <h3>Fotos:</h3>
+                <p th:each="foto : ${fotos}">
+                    <img th:src="@{${foto.rutaArchivo.replace('static/', '/')}}" 
+                         class="foto-pequena"
+                         onclick="ampliarFoto(this)"
+                         alt="Foto mascota">
+                </p>
+            </div>
+
+            <p><strong>¿Dónde?:</strong></p>
+            <p>Región: <span th:text="${aviso.comuna.region.nombre}">Región</span></p>
+            <p>Comuna: <span th:text="${aviso.comuna.nombre}">Comuna</span></p>
+            <p>Sector: <span th:text="${aviso.sector != null ? aviso.sector : 'No especificado'}">Sector</span></p>
+
+            <p><strong>¿Contacto de esta publicación?:</strong></p>
+            <p>Email: <span th:text="${aviso.email}">Email</span></p>
+            <p>Nombre: <span th:text="${aviso.nombre}">Nombre</span></p>
+            <p>Número: <span th:text="${aviso.celular != null ? aviso.celular : 'No especificado'}">Celular</span></p>
+
+            <p><strong>¿Qué mascota ofrece en adopción?:</strong></p>
+            <p>Tipo: <span th:text="${aviso.tipo}">Tipo</span></p>
+            <p>Cantidad: <span th:text="${aviso.cantidad}">0</span></p>
+            <p>Edad: <span th:text="${aviso.edad} + ' ' + (${aviso.unidadMedida == 'a'} ? 'años' : 'meses')">Edad</span></p>
+            <p>Descripción: <span th:text="${aviso.descripcion != null ? aviso.descripcion : 'No hay descripción'}">Desc.</span></p>
+                
+            <p><strong>Fecha disponible para entrega:</strong> 
+               <span th:text="${aviso.fechaEntrega != null ? #temporals.format(aviso.fechaEntrega, 'dd-MM-yyyy HH:mm') : 'No especificada'}">Fecha</span>
+            </p>
+        </div>
+
+        <hr>
+
+        <div id="seccion-comentarios" th:data-aviso-id="${aviso.id}">
+            <h2>Comentarios</h2>
+            
+            <form id="form-comentario">
+                <h3>Agregar un nuevo comentario</h3>
+                <div id="comentario-errores" style="color: red; margin-bottom: 10px;"></div>
+                <div>
+                    <label for="comentario-nombre">Nombre:</label>
+                    <input type="text" id="comentario-nombre" name="nombre" minlength="3" maxlength="80">
+                </div>
+                <br>
+                <div>
+                    <label for="comentario-texto">Comentario:</label><br>
+                    <textarea id="comentario-texto" name="texto" rows="4" cols="50" minlength="5"></textarea>
+                </div>
+                <br>
+                <button type="submit">Agregar comentario</button>
+            </form>
+
+            <hr>
+            
+            <h3>Comentarios existentes</h3>
+            <div id="lista-comentarios">
+                <p>Cargando comentarios...</p>
+            </div>
+        </div>
+
+        <a th:href="@{/listado}" class="button" id="volver-button">Volver al Listado</a>
+    </div>
+
+    <script th:src="@{/js/botones.js}"></script>
+    <script th:src="@{/js/detalle.js}"></script>
+</body>
+</html>

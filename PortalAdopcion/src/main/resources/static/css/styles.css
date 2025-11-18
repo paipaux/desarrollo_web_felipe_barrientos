@@ -1,0 +1,30 @@
+.foto-pequena {
+    width: 320px;
+    height: 240px;
+    object-fit: cover;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.foto-grande {
+    width: 800px;
+    height: 600px;
+    object-fit: contain;
+    cursor: pointer;
+}
+
+.btn-cerrar {
+    margin: 10px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.tabla-avisos,
+.tabla-avisos th,
+.tabla-avisos td {
+    border: 1px solid black;
+}
+
+.tabla-avisos {
+    border-collapse: collapse;
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Portal de Adopción de Mascotas</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <h1>Portal de Adopción de Mascotas</h1>
+    <button id="goform-button" type="button">Agregar aviso de adopción</button>
+    <button id="list-button" type="button">Ver listado de adopciones</button>
+    <button id="stats-button" type="button">Estadísticas</button>
+
+    <h2>Avisos de Adopción</h2>
+    <table class="tabla-avisos" style="width: 100%; margin-top: 20px;">
+        <thead>
+            <tr>
+                <th>Fecha publicación</th>
+                <th>Comuna</th>
+                <th>Sector</th>
+                <th>Cantidad,Tipo,Edad</th>
+                <th>Foto</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:if="${avisos != null AND !avisos.isEmpty()}" th:each="aviso : ${avisos}">
+                <td th:text="${aviso.fechaIngreso != null ? #temporals.format(aviso.fechaIngreso, 'yyyy-MM-dd HH:mm') : 'N/A'}">Fecha</td>
+                <td th:text="${aviso.comuna != null ? aviso.comuna.nombre : 'N/A'}">Comuna</td>
+                <td th:text="${aviso.sector != null ? aviso.sector : 'No especificado'}">Sector</td>
+                <td th:text="${aviso.cantidad} + ' ' + ${aviso.tipo} + ' ' + ${aviso.edad} + ' ' + (${aviso.unidadMedida == 'a'} ? 'Años' : 'Meses')">Detalle</td>
+                <td>
+                    <div th:if="${aviso.fotos != null AND !aviso.fotos.isEmpty()}">
+                        <img th:src="@{${aviso.fotos[0].rutaArchivo.replace('static/', '/')}}" width="320" height="240" alt="Foto de mascota">
+                    </div>
+                    <div th:unless="${aviso.fotos != null AND !aviso.fotos.isEmpty()}">
+                        Sin foto
+                    </div>
+                </td>
+            </tr>
+            <tr th:if="${avisos == null OR avisos.isEmpty()}">
+                <td colspan="5" style="text-align: center;">No hay avisos de adopción</td>
+            </tr>
+        </tbody>
+    </table>
+    <script th:src="@{/js/botones.js}"></script>
+</body>
+</html>
